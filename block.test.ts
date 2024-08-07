@@ -1,7 +1,9 @@
 import { Block } from "./block";
 
 describe("Block Test", () => {
-  let data: any, lastBlock: Block, block: Block;
+  let data: any;
+  let lastBlock: Block;
+  let block: Block;
 
   beforeEach(() => {
     data = "index.html";
