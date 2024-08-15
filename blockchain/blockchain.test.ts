@@ -1,5 +1,5 @@
+import { Blockchain } from ".";
 import { Block } from "./block";
-import { Blockchain } from "./blockchain";
 
 describe("Blockchain", () => {
   let bc: Blockchain;
