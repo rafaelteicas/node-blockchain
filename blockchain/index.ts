@@ -21,11 +21,12 @@ export class Blockchain {
     for (let i = 1; i < chain.length; i++) {
       const block = chain[i];
       const lastBlock = chain[i - 1];
+
       // Checa se o lastHash do bloco atual é igual ao hash do último bloco
       // Checa se o hash do bloco atual é igual ao hash gerado pelo bloco atual
       if (
         block.lastHash !== lastBlock.hash ||
-        block.hash !== Block.blockHash(block)
+        block.hash !== Block.mineBlock(block, block.data).hash
       )
         return false;
     }

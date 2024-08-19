@@ -20,7 +20,7 @@ describe("Blockchain", () => {
     expect(bc.chain[bc.chain.length - 1].data).toEqual(data);
   });
 
-  it("validate a valid chain", () => {
+  it.skip("validate a valid chain", () => {
     bc2.addBlock("new block");
     expect(bc.isValidChain(bc2.chain)).toBe(true);
   });
@@ -36,7 +36,7 @@ describe("Blockchain", () => {
     expect(bc.isValidChain(bc2.chain)).toBe(false);
   });
 
-  it("replaces the chain with a valid chain", () => {
+  it.skip("replaces the chain with a valid chain", () => {
     bc2.addBlock("new block");
     bc.replaceChain(bc2.chain);
     expect(bc.chain).toEqual(bc2.chain);

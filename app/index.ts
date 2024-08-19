@@ -12,10 +12,11 @@ app.use(express.json());
 
 app.post("/mine", (req, res) => {
   blockchain.addBlock(req.body.data);
+  p2pServer.syncChain();
   res.redirect("/blocks");
 });
 
-app.get("/blocks", (req, res) => {
+app.get("/blocks", (_, res) => {
   res.send(JSON.parse(JSON.stringify(blockchain.chain)));
 });
 
