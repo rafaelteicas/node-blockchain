@@ -21,4 +21,8 @@ export class Wallet {
           keypair     : ${this.keypair?.toString()}
     `;
   }
+
+  sign(dataHash: string) {
+    return this.keypair.sign(dataHash);
+  }
 }
