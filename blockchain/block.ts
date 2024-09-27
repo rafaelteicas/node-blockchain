@@ -1,11 +1,12 @@
 import { ChainUtil } from "../chain-util";
 import { DIFFICULTY, MINE_RATE } from "../config";
+import type { Transaction } from "../wallet/transaction";
 
 export class Block {
   timestamp: number;
   lastHash: string;
   hash: string;
-  data: string;
+  data: Transaction[];
   nonce: number;
   difficulty: number;
 

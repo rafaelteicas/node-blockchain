@@ -1,6 +1,7 @@
 import { SignatureInput } from "elliptic";
 import { Wallet } from ".";
 import { ChainUtil } from "../chain-util";
+import { MINING_REWARD } from "../config";
 
 type Input = {
   timestamp: number;
@@ -42,28 +43,30 @@ export class Transaction {
     recipient: string,
     amount: number
   ): Transaction | undefined {
-    const transaction = new this();
     if (amount > senderWallet.balance) {
       console.log(`Amount: ${amount} exceeds balance`);
       return;
     }
 
-    transaction.outputs.push(
-      ...[
-        {
-          amount: senderWallet.balance - amount,
-          address: senderWallet.publicKey,
-        },
-        {
-          amount,
-          address: recipient,
-        },
-      ]
-    );
+    return Transaction.transactionWithOutputs(senderWallet, [
+      {
+        amount: senderWallet.balance - amount,
+        address: senderWallet.publicKey,
+      },
+      {
+        amount,
+        address: recipient,
+      },
+    ]);
+  }
 
-    Transaction.signTransaction(transaction, senderWallet);
-
-    return transaction;
+  static rewardTransaction(minerWallet: Wallet, blockchainWallet: Wallet) {
+    return Transaction.transactionWithOutputs(blockchainWallet, [
+      {
+        amount: MINING_REWARD,
+        address: minerWallet.publicKey,
+      },
+    ]);
   }
 
   static signTransaction(transaction: Transaction, senderWallet: Wallet) {
@@ -73,6 +76,13 @@ export class Transaction {
       address: senderWallet.publicKey || "",
       signature: senderWallet.sign(ChainUtil.hash(transaction.outputs)),
     };
+  }
+
+  static transactionWithOutputs(senderWallet: Wallet, outputs: any[]) {
+    const transaction = new this();
+    transaction.outputs.push(...outputs);
+    Transaction.signTransaction(transaction, senderWallet);
+    return transaction;
   }
 
   static verifyTransaction(transaction: Transaction) {
